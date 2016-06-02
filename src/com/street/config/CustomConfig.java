@@ -13,7 +13,9 @@ import com.jfinal.plugin.c3p0.C3p0Plugin;
 import com.jfinal.render.ViewType;
 import com.street.controller.BlogController;
 import com.street.controller.HelloController;
+import com.street.controller.SelectSchoolController;
 import com.street.modle.Blog;
+import com.street.modle.SelectSchool;
 
 public class CustomConfig extends JFinalConfig {
 	@Override
@@ -28,6 +30,7 @@ public class CustomConfig extends JFinalConfig {
 	public void configRoute(Routes me) {
 		// me.add("/hello", HelloController.class);
 		me.add("/blog", BlogController.class);
+		me.add("/yitiaojie", SelectSchoolController.class);
 	}
 
 	@Override
@@ -42,7 +45,9 @@ public class CustomConfig extends JFinalConfig {
 		// 配置ActiveRecord插件
 		ActiveRecordPlugin arp = new ActiveRecordPlugin(c3p0Plugin);
 		me.add(arp);
-		arp.addMapping("blog", Blog.class); // 映射blog 表到 Blog模型
+	//	arp.addMapping("blog", Blog.class); // 映射blog 表到 Blog模型
+			arp.addMapping("s_school", SelectSchool.class); 
+			
 	}
 
 	@Override
