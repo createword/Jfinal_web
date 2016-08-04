@@ -13,8 +13,12 @@ import com.jfinal.plugin.c3p0.C3p0Plugin;
 import com.jfinal.render.ViewType;
 import com.street.controller.BlogController;
 import com.street.controller.HelloController;
+import com.street.controller.LoginUserController;
+import com.street.controller.NewsShowController;
 import com.street.controller.SelectSchoolController;
 import com.street.modle.Blog;
+import com.street.modle.LoginUser;
+import com.street.modle.NewsShow;
 import com.street.modle.SelectSchool;
 
 public class CustomConfig extends JFinalConfig {
@@ -23,6 +27,7 @@ public class CustomConfig extends JFinalConfig {
 		loadPropertyFile("config.properties");
 		me.setDevMode(getPropertyToBoolean("devMode", false));
 		me.setBaseViewPath("/WEB-INF/view");
+	
 		me.setViewType(ViewType.JSP);
 	}
 
@@ -31,6 +36,9 @@ public class CustomConfig extends JFinalConfig {
 		// me.add("/hello", HelloController.class);
 		me.add("/blog", BlogController.class);
 		me.add("/yitiaojie", SelectSchoolController.class);
+		me.add("/LoginUser", LoginUserController.class);
+		me.add("/NewsShow", NewsShowController.class);
+		
 	}
 
 	@Override
@@ -47,6 +55,8 @@ public class CustomConfig extends JFinalConfig {
 		me.add(arp);
 	//	arp.addMapping("blog", Blog.class); // 映射blog 表到 Blog模型
 			arp.addMapping("s_school", SelectSchool.class); 
+			arp.addMapping("u_user", LoginUser.class); 
+			arp.addMapping("g_goodsinfo", NewsShow.class); 
 			
 	}
 
@@ -61,7 +71,7 @@ public class CustomConfig extends JFinalConfig {
 	}
 
 	public static void main(String[] args) {
-		JFinal.start("WebRoot", 80, "/", 5);
+		JFinal.start("WebRoot", 8080, "/", 5);
 	}
 
 }
