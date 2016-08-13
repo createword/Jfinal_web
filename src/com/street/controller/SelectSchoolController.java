@@ -59,11 +59,13 @@ public class SelectSchoolController extends Controller {
 	public void getinfomation() {
 		JSONObject jsonOb = null;
 		String scname = getPara("schoolname");
+		int pid = getParaToInt("pid");
+		int selectCount = getParaToInt("selectCount");
 		ArrayList<Map<String, Object>> mapParams = new ArrayList<Map<String, Object>>();
 		Map<String, Object> params;
 		List<SelectSchool> list = SelectSchool.me
-				.find("select i.iid,i.infotitle,i.imgsrc,i.price,i.titme,i.infobody from i_infoschool AS i join s_school AS s ON i.depid=s.sid where s.schoolname=?",
-						scname);
+				.find("select i.iid,i.infotitle,i.imgsrc,i.price,i.titme,i.infobody ,s.schoolname from i_infoschool AS i join s_school AS s ON i.depid=s.sid where s.schoolname=? ORDER BY i.iid desc LIMIT ?,?",
+						scname,pid,selectCount);
 
 		for (SelectSchool selectSchool : list) {
 			params = new HashMap<String, Object>();
@@ -72,10 +74,51 @@ public class SelectSchoolController extends Controller {
 			params.put("price", selectSchool.get("price"));
 			params.put("time", selectSchool.get("titme"));
 			params.put("infobody", selectSchool.get("infobody"));
+			params.put("schoolname", selectSchool.get("schoolname"));
 			mapParams.add(params);
 
 		}
 
+		try {
+			jsonOb = new JSONObject();
+			jsonOb.put("ret", 0);
+			jsonOb.put("info", mapParams);
+			jsonOb.put("listCount", list.size());
+		} catch (JSONException e) {
+			try {
+				jsonOb.put("msg", "服务器访问失败");
+				jsonOb.put("ret", 1);
+			} catch (Exception e2) {
+				// TODO: handle exception
+			}
+			e.printStackTrace();
+		}
+
+		renderText(jsonOb.toString());
+		System.out.println(jsonOb.toString());
+
+	}
+
+	/**
+	 * 通过内链接查询所有的数据
+	 * 
+	 */
+	public void getInfosSchoolAll() {
+		ArrayList<Map<String, Object>> mapParams = new ArrayList<Map<String, Object>>();
+		Map<String, Object> params;
+		JSONObject jsonOb = null;
+		List<SelectSchool> Alllist = SelectSchool.me
+				.find("select i.iid,i.infotitle,i.imgsrc,i.price,i.titme,i.infobody, s.schoolname FROM i_infoschool AS i JOIN s_school  AS s ON i.depid=s.sid");
+		for (SelectSchool selectSchool : Alllist) {
+			params = new HashMap<String, Object>();
+			params.put("iid", selectSchool.get("iid"));
+			params.put("schoolname", selectSchool.get("schoolname"));
+			params.put("infotitle", selectSchool.get("infotitle"));
+			params.put("price", selectSchool.get("price"));
+			params.put("time", selectSchool.get("titme"));
+			params.put("infobody", selectSchool.get("infobody"));
+			mapParams.add(params);
+		}
 		try {
 			jsonOb = new JSONObject();
 			jsonOb.put("ret", 0);
@@ -93,7 +136,5 @@ public class SelectSchoolController extends Controller {
 
 		renderText(jsonOb.toString());
 		System.out.println(jsonOb.toString());
-
 	}
-
 }
