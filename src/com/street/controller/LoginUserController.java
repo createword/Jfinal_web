@@ -40,6 +40,7 @@ public class LoginUserController extends Controller {
 								+ loginUser.get("count(userid)")
 								+ loginUserslist.size());
 						renderText(sendObject.toString());
+					
 						return true;
 					} else {
 						
@@ -49,6 +50,7 @@ public class LoginUserController extends Controller {
 						System.out.println(sendObject.toString());
 						System.out.println("登录失败！");
 						renderText(sendObject.toString());
+			
 						return false;
 						// TODO Auto-generated catch block
 					}
@@ -64,7 +66,9 @@ public class LoginUserController extends Controller {
 		} else {
 			return false;
 		}
+		
 		return result;
 
 	}
+	
 }

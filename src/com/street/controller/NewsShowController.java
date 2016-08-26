@@ -32,6 +32,7 @@ public class NewsShowController extends Controller {
 			jsonOb = new JSONObject();
 			jsonOb.put("ret", 200);
 			jsonOb.put("info", Arraymaps);
+			
 			System.out.println(jsonOb.toString());
 		} catch (JSONException e) {
 			try {
